@@ -3,7 +3,7 @@
 IPython.keyboard_manager.command_shortcuts.add_shortcut('g', {
     handler : function (event) {
         var input = IPython.notebook.get_selected_cell().get_text();
-        var filename = input.substring(1, input.indexOf('\n'));
+        var filename = input.substring(input.lastIndexOf('\n') + 3, input.length);
         alert(filename);
         var cmd = "f = open('." + filename + ".py', 'w');f.close()";
         if (input != "") {
@@ -24,8 +24,8 @@ IPython.keyboard_manager.command_shortcuts.add_shortcut('u', {
         }
         var callback = {'output': handle_output};
         var input = IPython.notebook.get_selected_cell().get_text();
-        var filename = input.substring(1, input.indexOf('\n'));
-        var cmd = "f = open('." + filename + ".py', 'r');print(f.read())";
+        var filename = input.substring(input.lastIndexOf('\n') + 3, input.length);
+        var cmd = "f = open('." + filename + ".py', 'r');print(f.read(), end='')";
         IPython.notebook.kernel.execute(cmd, {iopub: callback}, {silent: false});
         return false;
     }}
